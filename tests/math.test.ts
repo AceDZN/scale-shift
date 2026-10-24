@@ -262,12 +262,47 @@ test('unbuilt gap causes a fall and fast entrance recovery without false progres
   assert.equal(g.commitments['span-a'].moduleId, 'gallery');
 });
 
-test('solid aperture boundaries prevent walking around an unbuilt span', () => {
+test('walking around an aperture reaches the open void, falls and grants no traversal', () => {
   const g = playing();
   for (let i = 0; i < 100; i++) step(g, 1 / 60, { forward: 0, strafe: 1 });
   for (let i = 0; i < 500; i++) step(g, 1 / 60, { forward: 1, strafe: 0 });
-  assert.ok(g.player.z < 7, `Aperture bypass reached z=${g.player.z}`);
+  assert.ok(g.player.z < 13.3, `Aperture bypass reached the far floor at z=${g.player.z}`);
+  assert.ok(g.falls > 0);
+  assert.equal(g.activeIndex, 0);
+  assert.deepEqual(g.passed, []);
+});
+
+test('the visible 0.18 m clearance posts block the capsule at the aperture', () => {
+  const g = playing();
+  // Ordinary movement places the capsule centre near the first right post.
+  for (let i = 0; i < 20; i++) step(g, 1 / 60, { forward: 0, strafe: 1 });
+  assert.ok(g.player.x > 0.9 && g.player.x < 1);
+  for (let i = 0; i < 300; i++) step(g, 1 / 60, { forward: 1, strafe: 0 });
+  // Rendered front post: centre z=6.9, depth=0.2, near surface z=6.8.
+  // The capsule must stop before that surface, not halfway through the mesh.
+  const lastSafeCentre = 6.8 - PLAYER_RADIUS - COLLISION_SKIN;
+  assert.ok(g.player.z <= lastSafeCentre + 1e-8, `Post allowed capsule penetration at z=${g.player.z}`);
+  assert.ok(g.player.z >= lastSafeCentre - 2.8 / 60 - 1e-8, 'The visible post should be reachable to within one movement step');
   assert.equal(g.falls, 0);
+  assert.deepEqual(g.passed, []);
+});
+
+test('falling beside a committed bridge cannot mark a span passed while airborne', () => {
+  const g = playing();
+  chooseAndCommit(g, 1, 1.5);
+  walkTo(g, 12.4);
+  // Leave the deck before the far frame, then move past the far threshold
+  // outside both visible posts. This used to create false progress in air.
+  for (let i = 0; i < 30; i++) step(g, 1 / 60, { forward: 0, strafe: 1 });
+  assert.ok(g.fallTime > 0);
+  for (let i = 0; i < 20; i++) step(g, 1 / 60, { forward: 1, strafe: 0 });
+  assert.ok(g.player.z >= 13.3, `Counterexample did not reach far threshold: ${g.player.z}`);
+  assert.ok(g.fallTime > 0);
+  assert.deepEqual(g.passed, []);
+  assert.equal(g.mode, 'playing');
+  for (let i = 0; i < 10 && g.falls === 0; i++) step(g, 1 / 60, { forward: 1, strafe: 0 });
+  assert.equal(g.falls, 1);
+  assert.equal(g.player.z, 2);
   assert.deepEqual(g.passed, []);
 });
 

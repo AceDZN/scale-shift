@@ -11,7 +11,7 @@ export interface SceneView {
 }
 
 type Module = { id: string; name?: string; length: number; width: number; height: number; opening: number };
-const IVORY = 0xd8d2bf;
+const IVORY = 0xe4e0d5;
 const INK = 0x343c44;
 const BLUE = 0x234ad1;
 const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
@@ -20,7 +20,7 @@ const edgeGeometry = new THREE.EdgesGeometry(boxGeometry);
 function concreteTexture(): THREE.CanvasTexture {
   const c = document.createElement('canvas'); c.width = c.height = 128;
   const ctx = c.getContext('2d')!;
-  ctx.fillStyle = '#d1cbbd'; ctx.fillRect(0, 0, 128, 128);
+  ctx.fillStyle = '#e9e5dc'; ctx.fillRect(0, 0, 128, 128);
   let seed = 14731;
   for (let i = 0; i < 2400; i++) {
     seed = (seed * 16807) % 2147483647; const x = seed % 128;
@@ -49,12 +49,14 @@ export function createScene(canvas: HTMLCanvasElement): SceneView {
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.12;
   renderer.shadowMap.enabled = true; renderer.shadowMap.autoUpdate = false; renderer.shadowMap.needsUpdate = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-  const scene = new THREE.Scene(); scene.background = new THREE.Color(0xe7e0ce);
-  scene.fog = new THREE.Fog(0xe7e0ce, 36, 115);
+  const scene = new THREE.Scene();
+  // Authoring uses +Z forward/+X right. Reflect Z into Three's right-handed view space.
+  scene.scale.z = -1; scene.background = new THREE.Color(0xdbe7ec);
+  scene.fog = new THREE.Fog(0xe6e4db, 42, 125);
   const camera = new THREE.PerspectiveCamera(68, 1, .045, 180);
   camera.rotation.order = 'YXZ';
-  const hemi = new THREE.HemisphereLight(0xf9f4dd, 0x777e81, 2.3); scene.add(hemi);
-  const sun = new THREE.DirectionalLight(0xfff0c8, 3.7); sun.position.set(-14, 22, -7);
+  const hemi = new THREE.HemisphereLight(0xe9f0ff, 0x86857e, 2.1); scene.add(hemi);
+  const sun = new THREE.DirectionalLight(0xfff3da, 3.6); sun.position.set(-14, 22, -7);
   sun.castShadow = true; sun.shadow.mapSize.set(2048, 2048);
   sun.shadow.camera.left = -17; sun.shadow.camera.right = 17; sun.shadow.camera.top = 25; sun.shadow.camera.bottom = -22;
   sun.shadow.camera.near = 1; sun.shadow.camera.far = 70; sun.shadow.bias = -.00045; sun.shadow.normalBias = .018;
@@ -62,7 +64,7 @@ export function createScene(canvas: HTMLCanvasElement): SceneView {
   const stoneMap = concreteTexture();
   const stone = new THREE.MeshStandardMaterial({ color: IVORY, roughness: .91, map: stoneMap });
   const pale = new THREE.MeshStandardMaterial({ color: 0xeee8d8, roughness: .93, map: stoneMap });
-  const darkStone = new THREE.MeshStandardMaterial({ color: 0x7a827d, roughness: .96, map: stoneMap });
+  const darkStone = new THREE.MeshStandardMaterial({ color: 0xb0b1a8, roughness: .96, map: stoneMap });
   const blue = new THREE.MeshStandardMaterial({ color: BLUE, roughness: .52, metalness: .12 });
   const charcoal = new THREE.MeshStandardMaterial({ color: INK, roughness: .68, metalness: .25 });
   const staticWorld = new THREE.Group(); const routes = new THREE.Group(); const guides = new THREE.Group(); const art = new THREE.Group();
@@ -107,15 +109,15 @@ export function createScene(canvas: HTMLCanvasElement): SceneView {
         const sz = socket.z ?? socket.gapStart;
         const len = socket.length;
         if (sz > cursor) block(staticWorld, museumW, .45, sz - cursor, 0, -.225, (sz + cursor) / 2, pale);
-        // The empty gap is a real void. Tall abutments flank, but never bridge, the socket.
+        // The empty gap is a real void. Measured narrow receiving posts keep side views open.
         const clearanceW = socket.width ?? ch.width; const ceiling = socket.ceiling ?? ch.ceiling;
-        const sideW = (museumW - clearanceW) / 2;
         for (const sign of [-1, 1]) {
-          block(staticWorld, sideW, 7, len, sign * (clearanceW / 2 + sideW / 2), -.8, sz + len / 2, stone);
-          block(staticWorld, .045, .035, len, sign * clearanceW / 2, .018, sz + len / 2, blue, false);
+          for (const zz of [sz - .1, sz + len + .1]) block(staticWorld, .18, ceiling, .2, sign * (clearanceW / 2 + .09), ceiling / 2, zz, stone);
+          // Side faces of a preview remain visible across open negative space.
+          line(staticWorld, [new THREE.Vector3(sign * clearanceW / 2, -.02, sz), new THREE.Vector3(sign * clearanceW / 2, -.02, sz + len)], BLUE, .35);
         }
         // A literal roof soffit defines the authored height restriction, open above it to daylight.
-        block(staticWorld, clearanceW + .18, .24, len, 0, ceiling + .12, sz + len / 2, darkStone);
+        for (const zz of [sz - .1, sz + len + .1]) block(staticWorld, clearanceW + .18, .24, .2, 0, ceiling + .12, zz, pale);
         for (const zz of [sz, sz + len]) {
           block(staticWorld, clearanceW + .28, .05, .05, 0, ceiling - .025, zz, charcoal, false);
           block(staticWorld, museumW, .018, .075, 0, .009, zz - .04, blue, false);
@@ -150,6 +152,13 @@ export function createScene(canvas: HTMLCanvasElement): SceneView {
     block(staticWorld, 12, .45, 13, 0, -.225, finalEnd + 6.5, pale);
     for (const sign of [-1, 1]) block(staticWorld, .55, 10, 13, sign * 6.28, 4.8, finalEnd + 6.5, stone);
     block(staticWorld, 12.6, .6, .6, 0, 9.8, finalEnd + 12, pale);
+    // A distant circular aperture continues the reference's sculptural negative space.
+    // It is entirely past the reachable finish, so this decorative wall is never a puzzle collider.
+    const aperture = new THREE.Shape(); aperture.moveTo(-5.5, 0); aperture.lineTo(5.5, 0); aperture.lineTo(5.5, 10); aperture.lineTo(-5.5, 10); aperture.closePath();
+    const hole = new THREE.Path(); hole.absarc(0, 5.5, 3, 0, Math.PI * 2, true); aperture.holes.push(hole);
+    const apertureMesh = new THREE.Mesh(new THREE.ExtrudeGeometry(aperture, { depth: .55, bevelEnabled: false, curveSegments: 64 }), pale);
+    apertureMesh.position.set(0, 0, finalEnd + 10); apertureMesh.castShadow = true; apertureMesh.receiveShadow = true; staticWorld.add(apertureMesh);
+    const suspended = new THREE.Mesh(new THREE.SphereGeometry(.9, 32, 20), pale); suspended.position.set(0, 5.5, finalEnd + 9.8); suspended.castShadow = true; staticWorld.add(suspended);
     // The final light well is the visible destination; the sculpture remains outside the path.
     const glow = new THREE.Mesh(new THREE.PlaneGeometry(5.4, 8.5), new THREE.MeshBasicMaterial({ color: 0xfff6cf, side: THREE.DoubleSide }));
     glow.position.set(0, 4, finalEnd + 12.5); staticWorld.add(glow);
@@ -168,13 +177,13 @@ export function createScene(canvas: HTMLCanvasElement): SceneView {
   function placeArt(chambers: any[]) {
     art.clear(); sculptureCount = 0; if (!artTemplate || !chambers.length) return;
     // GLB is normalized uniformly, then grounded on a pedestal. No collider depends on it.
-    const positions = [{ x: 3.4, z: (chambers[0].start ?? 0) + 4, size: 2.7 }, { x: -3.1, z: chambers.at(-1).end + 5, size: 4.2 }];
+    const positions = [{ x: -3.4, z: (chambers[0].start ?? 0) + 5.5, size: 2.7 }, { x: -3.1, z: chambers.at(-1).end + 5, size: 4.2 }];
     for (const p of positions) {
       const clone = artTemplate.clone(true); const b = new THREE.Box3().setFromObject(clone); const size = b.getSize(new THREE.Vector3());
       const factor = p.size / Math.max(size.y, .001); clone.scale.setScalar(factor);
       b.setFromObject(clone); const center = b.getCenter(new THREE.Vector3());
       clone.position.set(p.x - center.x, .22 - b.min.y, p.z - center.z);
-      clone.rotation.y = -.18;
+      clone.rotation.y = Math.PI + .12;
       clone.traverse((o: any) => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } });
       art.add(clone); block(art, 2.4, .22, 2.4, p.x, .11, p.z, pale); sculptureCount++;
     }
@@ -190,7 +199,7 @@ export function createScene(canvas: HTMLCanvasElement): SceneView {
     const turned = Math.abs(Math.sin(orientation)) > .7;
     const extent = (turned ? module.width : module.length) * s;
     root.position.set(0, 0, socket.z + extent / 2); root.rotation.y = orientation; root.scale.setScalar(s);
-    const material = preview ? new THREE.MeshStandardMaterial({ color: valid ? 0x5382db : 0xd98058, transparent: true, opacity: .58, depthWrite: false, roughness: .5, metalness: .04 }) : pale;
+    const material = preview ? new THREE.MeshStandardMaterial({ color: valid ? 0x2858e7 : 0xd98058, transparent: true, opacity: .58, depthWrite: false, roughness: .5, metalness: .04 }) : pale;
     const w = module.width, h = module.height, l = module.length; const opening = Math.min(module.opening, h - .025); const t = Math.min(.08, w / 8, l / 8);
     block(root, w, .15, l, 0, -.075, 0, material, !preview);
     block(root, w, h - opening, l, 0, opening + (h - opening) / 2, 0, material, !preview);
@@ -227,7 +236,7 @@ export function createScene(canvas: HTMLCanvasElement): SceneView {
     }
   }
   function rebuildGuides(state: any, chambers: any[]) {
-    clear(guides); if (!(state.measurements ?? state.showMeasurements ?? true)) return;
+    clear(guides); const detailed = state.measurements ?? state.showMeasurements ?? false; if (!detailed && !state.selected) return;
     const ch = chambers[state.activeIndex ?? state.chamberIndex ?? 0]; if (!ch) return;
     const socket = activeSocket(state, ch); if (!socket) return;
     const width = socket.width ?? ch.width; const ceiling = socket.ceiling ?? ch.ceiling; const z = socket.z; const end = z + socket.length;
@@ -235,8 +244,10 @@ export function createScene(canvas: HTMLCanvasElement): SceneView {
     line(guides, [new THREE.Vector3(-width / 2 + .08, .14, z), new THREE.Vector3(-width / 2 + .08, .14, end)], color);
     for (const zz of [z, end]) line(guides, [new THREE.Vector3(-width / 2, .14, zz), new THREE.Vector3(-width / 2 + .25, .14, zz)], color);
     const span = textSprite(`${socket.length} m`, '#283d99', .5); span.position.set(-width / 2 - .02, .48, z + socket.length / 2); guides.add(span);
-    const height = textSprite(`${ceiling} m`, '#313b47', .4); height.position.set(width / 2 + .55, ceiling / 2, z + .08); guides.add(height);
-    line(guides, [new THREE.Vector3(width / 2 + .05, .03, z), new THREE.Vector3(width / 2 + .05, ceiling, z)], color);
+    if (detailed) {
+      const height = textSprite(`${ceiling} m`, '#313b47', .4); height.position.set(width / 2 + .55, ceiling / 2, z + .08); guides.add(height);
+      line(guides, [new THREE.Vector3(width / 2 + .05, .03, z), new THREE.Vector3(width / 2 + .05, ceiling, z)], color);
+    }
     const codes: string[] = state.selected ? state.evaluation?.codes || [] : [];
     const conflict = 0xbf542e;
     if (codes.includes('width')) for (const sign of [-1, 1]) {
@@ -244,7 +255,7 @@ export function createScene(canvas: HTMLCanvasElement): SceneView {
     }
     if (codes.includes('ceiling')) line(guides, [new THREE.Vector3(-width / 2, ceiling - .025, z), new THREE.Vector3(width / 2, ceiling - .025, z), new THREE.Vector3(width / 2, ceiling - .025, end), new THREE.Vector3(-width / 2, ceiling - .025, end), new THREE.Vector3(-width / 2, ceiling - .025, z)], conflict, 1);
     const dims = state.evaluation?.dims;
-    if (dims && (state.selected !== null && state.selected !== false)) {
+    if (detailed && dims && (state.selected !== null && state.selected !== false)) {
       const value = textSprite(`${Number(dims.length).toFixed(2)} × ${Number(dims.height).toFixed(2)} × ${Number(dims.width).toFixed(2)} m`, state.evaluation?.ok ? '#2047ad' : '#9d4127', .48);
       value.position.set(0, Math.max(ceiling, dims.height) + .42, z + Math.min(socket.length, dims.length) / 2); guides.add(value);
     }
@@ -266,9 +277,9 @@ export function createScene(canvas: HTMLCanvasElement): SceneView {
       const nextGuide = JSON.stringify([nextRoutes, state.measurements, state.showMeasurements, state.evaluation?.dims]);
       if (guideKey !== nextGuide) { guideKey = nextGuide; rebuildGuides(state, chambers); }
       const p = state.player || { x: 0, y: 1.65, z: 0, yaw: 0, pitch: 0 };
-      camera.position.set(p.x ?? 0, p.y ?? 1.65, p.z ?? 0);
-      // The model's zero yaw looks along +Z; Three cameras look along -Z.
-      camera.rotation.set(p.pitch ?? 0, Math.PI + (p.yaw ?? 0), 0, 'YXZ');
+      camera.position.set(p.x ?? 0, p.y ?? 1.65, -(p.z ?? 0));
+      // Reflection preserves the model's +X right/+Z forward movement convention.
+      camera.rotation.set(p.pitch ?? 0, -(p.yaw ?? 0), 0, 'YXZ');
       if (Math.abs((p.z ?? 0) - shadowZ) > 2) { shadowZ = p.z ?? 0; sun.position.set(-13, 22, shadowZ - 8); sun.target.position.set(0, 0, shadowZ); sun.target.updateMatrixWorld(); renderer.shadowMap.needsUpdate = true; }
       renderer.render(scene, camera); frameCount++; renderMs = performance.now() - startTime; lastFrame = performance.now();
     },

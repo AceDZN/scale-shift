@@ -15,6 +15,15 @@ The reviewer read the saved public curriculum snapshots supplied with the handof
 
 The primary reading was the explanatory and worked-example blocks: `ratio-meaning` blocks 5, 19, 28–29; `proportion-equations` blocks 5, 12, 26; `scale` blocks 5, 19–20, 26; and `perimeter-area-ratio` blocks 6, 19, 24. No claim is made that playing the slice demonstrates mastery or a measured learning gain.
 
+Snapshot SHA-256 fingerprints:
+
+```text
+scale.json                  87c2a94d43860ebcbd6dfd05517216d5b81cf26f1c6cf67688066fd98af27f0c
+ratio-meaning.json          aae127d7241d66890aeba6703aa82002f90eb51134b9276d2a21fc618b3ba630
+proportion-equations.json   b6c3fa06fa7ff877d4d57cee37e217beeb96e7f91c14d3952c156042b4538fa5
+perimeter-area-ratio.json    5eea7200cb647c30c6d116d80254b8863fc34560b57830b11f65048faa0170f5
+```
+
 ## Actions, relationships and misconception checks
 
 | Game action | Mathematical relationship | Visible counterexample or verification |
@@ -31,6 +40,7 @@ The primary reading was the explanatory and worked-example blocks: `ratio-meanin
 
 - One world unit is one metre. The plan explicitly states centimetres before converting to metres.
 - Supported resize factors are `1/2 ≤ s ≤ 3`, in increments of `1/20`. A displayed rational and decimal refer to that same factor.
+- Dimensional HUD values round to two decimal places for display; fit and collision decisions use the unrounded transformed values. Supported factor decimals are exact to two decimal places.
 - Player height is 1.65 m. A module must satisfy span alignment, outer ceiling/width bounds and internal capsule clearance. Alignment tolerance and collision skin are separate implementation quantities; neither is a rounding rule for a displayed mathematical answer.
 - A rejected manipulation retains the previous valid geometry. An occupied structure cannot be resized, removed or changed by undo. Fit success itself must not move the player or unlock a separate route: the committed deck is the route.
 - The renderer is not the mathematical authority. Authored module primitives define both measured bounds and collision surfaces; decorative generated models have no curriculum measurement or collision role.
