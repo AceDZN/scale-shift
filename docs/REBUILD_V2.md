@@ -1,6 +1,6 @@
 # Scale Shift — interaction replan v2
 
-Status: design proposal and generated mockups. **No rebuild code has started.** The existing playable baseline is preserved at main commit `4d4beb2`; its numerical checks do not establish usability or fun.
+Status: approved guided rebuild implemented; production/input checks and human first-minute feedback are recorded separately. Generated mockups preceded the rebuild. The existing playable baseline is preserved at main commit `4d4beb2`; its numerical checks do not establish usability or fun.
 
 ## Direct human feedback
 
@@ -73,4 +73,4 @@ Both independent QA and visual contributors found the one-handle, ghost-to-solid
 6. Ask the human to play that minute and report where they hesitate and whether the reveal feels rewarding. Passing automation cannot replace that response.
 7. Expand to the staircase and light-well transfer only after the basic interaction has been tried.
 
-A direction question was sent to the human: guided click/drag adventure (recommended), simplified free exploration, or a completely new loop retaining only the scale idea. This document is the concrete guided proposal to evaluate, not a claim that a redesigned game is already implemented.
+The human approved the guided direction with “ok, proceed”. The implemented route contains four crossings across the three proposed spaces; its usability and enjoyment remain subject to human play feedback.

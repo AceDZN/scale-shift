@@ -6,6 +6,7 @@ import {
   beginWalk, pause, resume, retry, undo, stepAdventure, supportAt, occupied,
   type Adventure,
 } from '../src/adventure.ts';
+import { guidedWorldPoint } from '../src/guided-scene.ts';
 
 const factors = [1.5, 0.5, 0.75, 2];
 const close = (a: number, b: number, label = '') =>
@@ -35,7 +36,7 @@ function advanceUntil(g: Adventure, done: () => boolean, max = 5000) {
 test('v2 exact witnesses preserve every dimension and staircase slope', () => {
   const expected = [
     { length: 6, width: 1.5, height: 2.4, opening: 2.1, rise: 0 },
-    { length: 2, width: 1.5, height: 1, opening: 0, rise: 1 },
+    { length: 2, width: 1.5, height: 1.7, opening: 0, rise: 1 },
     { length: 3, width: 1.5, height: 2.4, opening: 2.175, rise: 0 },
     { length: 6, width: 1.6, height: 3, opening: 2.6, rise: 0 },
   ];
@@ -52,6 +53,24 @@ test('v2 exact witnesses preserve every dimension and staircase slope', () => {
       if (stage.base.opening) close(dims.opening / stage.base.opening, factor);
       if (stage.base.rise) close(dims.rise / dims.length, 0.5, 'stairs slope');
     }
+  });
+});
+
+test('render coordinates place the same four measured endpoints and scaled opening as the rules', () => {
+  const endpoints = [
+    { x: 6, y: 0, z: 0 },
+    { x: 10, y: 1, z: -5 },
+    { x: 19, y: 1, z: -7 },
+    { x: 23, y: 1, z: 2 },
+  ];
+  STAGES.forEach((s, i) => {
+    const d = stageDims(s, factors[i]);
+    const p = guidedWorldPoint(s, 0, d.rise, d.length);
+    close(p.x, endpoints[i].x, `${s.id} rendered end x`);
+    close(p.y, endpoints[i].y, `${s.id} rendered end y`);
+    close(p.z, endpoints[i].z, `${s.id} rendered end z`);
+    const top = guidedWorldPoint(s, d.width / 2, d.height, d.length);
+    close(top.distanceTo(p), Math.hypot(d.width / 2, d.height - d.rise), `${s.id} uniform corner transform`);
   });
 });
 
@@ -166,8 +185,10 @@ test('second click stops on the bridge; next click continues without rewind or s
   assert.equal(beginWalk(g), true);
   assert.equal(g.walking, false);
   assert.equal(g.walkStopped, true);
+  const stoppedCamera = { ...g.camera };
   for (let i = 0; i < 60; i++) stepAdventure(g, 1 / 60);
   assert.deepEqual(position(g), before);
+  assert.deepEqual(g.camera, stoppedCamera, 'Stopping must freeze look direction as well as position');
   assert.equal(g.waypoint, waypoint);
   assert.equal(g.walkProgress, progress);
   assert.equal(startDrag(g), false);
@@ -240,6 +261,12 @@ test('all three spaces and four crossings require continuous supported physical 
   }
   assert.equal(g.mode, 'won');
   assert.deepEqual(g.passed, STAGES.map(s => s.id));
+  const reveal = STAGES.at(-1)!.reveal!;
+  const actualView = [g.camera.targetX - g.camera.x, g.camera.targetY - g.camera.y, g.camera.targetZ - g.camera.z];
+  const intendedView = [reveal.x - g.camera.x, reveal.y - g.camera.y, reveal.z - g.camera.z];
+  const facing = actualView.reduce((sum, value, i) => sum + value * intendedView[i], 0)
+    / Math.hypot(...actualView) / Math.hypot(...intendedView);
+  assert.ok(facing > 0.99, `Final view misses the revealed landmark: alignment=${facing}`);
   const won = structuredClone(g);
   stepAdventure(g, 10);
   assert.equal(startDrag(g), false);

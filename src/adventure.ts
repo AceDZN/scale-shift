@@ -1,6 +1,6 @@
 /** Guided Scale Shift: every world quantity is in metres. No UI answer unlocks a route. */
 export type Vec={x:number;y:number;z:number};
-export type Stage={id:string;title:string;kind:'gallery'|'stairs';origin:Vec;direction:{x:number;z:number};base:{length:number;width:number;height:number;opening:number;rise?:number};target:{length:number;width:number;ceiling:number;rise?:number};approach:Vec;arrival:Vec;focus:Vec;route:Vec[];hint:string};
+export type Stage={id:string;title:string;kind:'gallery'|'stairs';origin:Vec;direction:{x:number;z:number};base:{length:number;width:number;height:number;opening:number;rise?:number};target:{length:number;width:number;ceiling:number;rise?:number};approach:Vec;arrival:Vec;focus:Vec;route:Vec[];hint:string;reveal?:Vec};
 export type Platform={id:string;center:Vec;width:number;depth:number};
 export const EYE=1.65,RADIUS=.2,SKIN=.015,ALIGN=.045;
 export const PLATFORMS:Platform[]=[
@@ -12,12 +12,12 @@ export const PLATFORMS:Platform[]=[
 ];
 export const STAGES:Stage[]=[
  {id:'sunbridge',title:'גשר של אור',kind:'gallery',origin:{x:0,y:0,z:0},direction:{x:1,z:0},base:{length:4,width:1,height:1.6,opening:1.4},target:{length:6,width:8,ceiling:8},approach:{x:-2,y:EYE,z:5},arrival:{x:7,y:EYE,z:0},focus:{x:2.8,y:1.05,z:0},route:[{x:-.65,y:EYE,z:0},{x:0,y:EYE,z:0},{x:6,y:EYE,z:0},{x:7,y:EYE,z:0},{x:12.5,y:EYE,z:-1.3}],hint:'גררו להגדלה'},
- {id:'balcony-stair',title:'מדרגות אל המבט הבא',kind:'stairs',origin:{x:10,y:0,z:-3},direction:{x:0,z:-1},base:{length:4,width:3,height:2,opening:0,rise:2},target:{length:2,width:1.7,ceiling:3.2,rise:1},approach:{x:12.5,y:EYE,z:-1.3},arrival:{x:10,y:1+EYE,z:-5.35},focus:{x:10,y:.85,z:-4},route:[{x:10,y:EYE,z:-2.5},{x:10,y:EYE,z:-3},{x:10,y:1+EYE,z:-5.35},{x:12.5,y:1+EYE,z:-9.8}],hint:'גררו כדי להקטין'},
+ {id:'balcony-stair',title:'מדרגות אל המבט הבא',kind:'stairs',origin:{x:10,y:0,z:-3},direction:{x:0,z:-1},base:{length:4,width:3,height:3.4,opening:0,rise:2},target:{length:2,width:1.7,ceiling:3.2,rise:1},approach:{x:12.5,y:EYE,z:-1.3},arrival:{x:10,y:1+EYE,z:-5.35},focus:{x:10,y:.85,z:-4},route:[{x:10,y:EYE,z:-2.5},{x:10,y:EYE,z:-3},{x:10,y:1+EYE,z:-5.35},{x:12.5,y:1+EYE,z:-9.8}],hint:'גררו כדי להקטין'},
  {id:'near-shore',title:'שתי גדות · המעבר הקרוב',kind:'gallery',origin:{x:16,y:1,z:-7},direction:{x:1,z:0},base:{length:4,width:2,height:3.2,opening:2.9},target:{length:3,width:1.8,ceiling:3.2},approach:{x:12.5,y:1+EYE,z:-9.8},arrival:{x:19.7,y:1+EYE,z:-7},focus:{x:17.5,y:2.2,z:-7},route:[{x:15.5,y:1+EYE,z:-7},{x:16,y:1+EYE,z:-7},{x:19,y:1+EYE,z:-7},{x:19.7,y:1+EYE,z:-7},{x:20.1,y:1+EYE,z:-5.8}],hint:'מה היחס שיפתח כאן דרך?'},
- {id:'far-shore',title:'שתי גדות · אל באר האור',kind:'gallery',origin:{x:23,y:1,z:-4},direction:{x:0,z:1},base:{length:3,width:.8,height:1.5,opening:1.3},target:{length:6,width:2,ceiling:3.4},approach:{x:20.1,y:1+EYE,z:-5.8},arrival:{x:23,y:1+EYE,z:2.7},focus:{x:23,y:2.1,z:-1},route:[{x:23,y:1+EYE,z:-4.6},{x:23,y:1+EYE,z:-4},{x:23,y:1+EYE,z:2},{x:23,y:1+EYE,z:2.7},{x:23,y:1+EYE,z:5.3}],hint:'המעבר האחרון. הפעם המידה שונה.'},
+ {id:'far-shore',title:'שתי גדות · אל באר האור',kind:'gallery',origin:{x:23,y:1,z:-4},direction:{x:0,z:1},base:{length:3,width:.8,height:1.5,opening:1.3},target:{length:6,width:2,ceiling:3.4},approach:{x:20.1,y:1+EYE,z:-5.8},arrival:{x:23,y:1+EYE,z:2.7},focus:{x:23,y:2.1,z:-1},route:[{x:23,y:1+EYE,z:-4.6},{x:23,y:1+EYE,z:-4},{x:23,y:1+EYE,z:2},{x:23,y:1+EYE,z:2.7},{x:21.7,y:1+EYE,z:4.7}],reveal:{x:25.4,y:3,z:5.9},hint:'המעבר האחרון. הפעם המידה שונה.'},
 ];
 export type Fit={ok:boolean;codes:string[];message:string;dims:{length:number;width:number;height:number;opening:number;rise:number}};
-export type Adventure={mode:'playing'|'paused'|'won';stage:number;stages:Stage[];scale:number;dragging:boolean;dragStart:number;committed:Record<string,number>;passed:string[];camera:Vec&{targetX:number;targetY:number;targetZ:number};time:number;feedback:string;revision:number;walking:boolean;path:Vec[];waypoint:number;walkProgress:number;walkStopped:boolean;settleTime:number;lastCommitTime:number;fit:Fit;undoStack:{stageId:string;previous?:number;scale:number}[];rejects:number;events:{type:string;stage:string;scale:number;time:number}[]};
+export type Adventure={mode:'playing'|'paused'|'won';reducedMotion:boolean;stage:number;stages:Stage[];scale:number;dragging:boolean;dragStart:number;committed:Record<string,number>;passed:string[];camera:Vec&{targetX:number;targetY:number;targetZ:number};time:number;feedback:string;revision:number;walking:boolean;path:Vec[];waypoint:number;walkProgress:number;walkStopped:boolean;settleTime:number;lastCommitTime:number;fit:Fit;undoStack:{stageId:string;previous?:number;scale:number}[];rejects:number;events:{type:string;stage:string;scale:number;time:number}[]};
 export function stageDims(stage:Stage,scale:number){return {length:stage.base.length*scale,width:stage.base.width*scale,height:stage.base.height*scale,opening:stage.base.opening*scale,rise:(stage.base.rise??0)*scale};}
 export function evaluateStage(stage:Stage,scale:number):Fit{
  const d=stageDims(stage,scale),codes:string[]=[];let message='מתאים — שחררו';
@@ -32,7 +32,7 @@ export function evaluateStage(stage:Stage,scale:number):Fit{
  if(stage.kind==='stairs'&&d.rise+EYE+SKIN>stage.target.ceiling){codes.push('ceiling');message='אין מקום לעבור מתחת לקורה';}
  return {ok:codes.length===0,codes,message,dims:d};
 }
-export function createAdventure():Adventure{const s=STAGES[0];return {mode:'playing',stage:0,stages:STAGES,scale:1,dragging:false,dragStart:1,committed:{},passed:[],camera:{...s.approach,targetX:s.focus.x,targetY:s.focus.y,targetZ:s.focus.z},time:0,feedback:s.hint,revision:0,walking:false,path:[],waypoint:0,walkProgress:0,walkStopped:false,settleTime:0,lastCommitTime:-10,fit:evaluateStage(s,1),undoStack:[],rejects:0,events:[]};}
+export function createAdventure():Adventure{const s=STAGES[0];return {mode:'playing',reducedMotion:false,stage:0,stages:STAGES,scale:1,dragging:false,dragStart:1,committed:{},passed:[],camera:{...s.approach,targetX:s.focus.x,targetY:s.focus.y,targetZ:s.focus.z},time:0,feedback:s.hint,revision:0,walking:false,path:[],waypoint:0,walkProgress:0,walkStopped:false,settleTime:0,lastCommitTime:-10,fit:evaluateStage(s,1),undoStack:[],rejects:0,events:[]};}
 function event(g:Adventure,type:string){g.events.push({type,stage:STAGES[g.stage].id,scale:g.scale,time:g.time});if(g.events.length>80)g.events.shift();}
 export function localPoint(stage:Stage,p:Vec){const dx=p.x-stage.origin.x,dz=p.z-stage.origin.z;return {along:dx*stage.direction.x+dz*stage.direction.z,across:dx*stage.direction.z-dz*stage.direction.x};}
 export function occupied(g:Adventure,id=STAGES[g.stage].id){const s=STAGES.find(s=>s.id===id)!;const scale=g.committed[id];if(scale===undefined)return false;const p=localPoint(s,g.camera),d=stageDims(s,scale);return p.along>-.25&&p.along<d.length+.25&&Math.abs(p.across)<d.width/2+RADIUS;}
@@ -58,8 +58,8 @@ export function stepAdventure(g:Adventure,dt:number){
  if(g.walking){const target=g.path[g.waypoint];if(!target)return;const dx=target.x-c.x,dz=target.z-c.z,len=Math.hypot(dx,dz),travel=Math.min(len,2.25*dt);const nx=len<1e-7?target.x:c.x+dx/len*travel,nz=len<1e-7?target.z:c.z+dz/len*travel;const ground=supportAt(g,nx,nz);
   if(ground===null||Math.abs(ground-(c.y-EYE))>.26){g.walking=false;g.walkStopped=true;g.feedback='יש כאן פער. הדרך צריכה להיות מחוברת.';event(g,'unsupported-stop');g.revision++;return;}
   c.x=nx;c.z=nz;c.y=ground+EYE;g.walkProgress+=travel;
-  if(len>.08){const k=Math.min(1,dt*5);c.targetX+=(c.x+dx/len*4-c.targetX)*k;c.targetZ+=(c.z+dz/len*4-c.targetZ)*k;c.targetY+=(c.y-.05-c.targetY)*k;}
+  if(len>.08){const k=Math.min(1,dt*5),reveal=g.waypoint===g.path.length-1?s.reveal:undefined;c.targetX+=((reveal?.x??c.x+dx/len*4)-c.targetX)*k;c.targetZ+=((reveal?.z??c.z+dz/len*4)-c.targetZ)*k;c.targetY+=((reveal?.y??c.y-.05)-c.targetY)*k;}
   if(len<=travel+.015){g.waypoint++;if(g.waypoint>=g.path.length){g.walking=false;g.walkStopped=false;g.passed.push(s.id);event(g,'crossed');if(g.stage===STAGES.length-1){g.mode='won';g.feedback='פתחתם דרך אל האור.';}else{g.stage++;g.scale=1;g.fit=evaluateStage(STAGES[g.stage],1);g.feedback=STAGES[g.stage].hint;}g.revision++;}}
- }else{const t=STAGES[g.stage].focus,k=Math.min(1,dt*3);c.targetX+=(t.x-c.targetX)*k;c.targetY+=(t.y-c.targetY)*k;c.targetZ+=(t.z-c.targetZ)*k;}
+ }else if(!g.walkStopped){const t=STAGES[g.stage].focus,k=Math.min(1,dt*3);c.targetX+=(t.x-c.targetX)*k;c.targetY+=(t.y-c.targetY)*k;c.targetZ+=(t.z-c.targetZ)*k;}
 }
 export function scaleFraction(s:number){let n=Math.round(s*20),d=20;for(let k=20;k>1;k--)if(n%k===0&&d%k===0){n/=k;d/=k;}return d===1?`${n}`:`${n}/${d}`;}

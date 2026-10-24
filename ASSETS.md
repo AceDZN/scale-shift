@@ -72,3 +72,13 @@ The existing Chrome-Tripo sculpture is compatible with the target's ivory/ultram
 The lead bundles Heebo Hebrew weights 400/500 from `@fontsource/heebo` locally through Vite. Heebo is distributed under the SIL Open Font License (OFL); retain the package license with redistribution. No runtime Google Fonts or other remote font fetch is required.
 
 The world-to-render mapping reflects authored Z into Three's right-handed coordinate system. Authored `+X` remains visually right, `+Z` forward; camera position/yaw use the matching reflection. The generated prop's blue keyhole face was checked in actual gameplay rather than inferred from its source preview. Its packed accessor bounds are approximately X `[-0.18230,0.18289]`, Y `[0.00003,0.97953]`, Z `[-0.36453,0.36417]` before uniform normalization.
+
+## Approved guided rebuild v2
+
+Current guided gameplay uses `src/guided-scene.ts`. The original Tripo asset is preserved unchanged; its two fixed guided-world placements are uniformly normalized to 3.3 m on the sun court and 3.6 m on the final light court. No new Tripo generation, export, subscription or credit spend was needed for the rebuild. The earlier 2.7 m / 4.2 m placements describe the retained first implementation.
+
+The approved v2 storyboard was inspected before writing the new scene. Later set-piece targets `docs/visual-targets/rebuild-v2/staircase.png` and `two-shores.png` were generated with the built-in image_gen tool, saved locally and inspected before implementing their exact scene geometry. Exact prompts and review caveats are in `LATER_SETPIECES.md`; `later-manifest.json` records hashes. These are generated design targets, never gameplay evidence.
+
+The guided world contains the five authoritative platform rectangles from `adventure.ts`, with deck tops at y=0 or y=1, built once and retained through every crossing. Module groups use one uniform scale and the authoritative near-deck pivot. The stair structure has 12 solid step volumes with top rise `base.rise × (i + 1) / 12`, 0.04 m baseline boundary posts and no gallery roof. Gallery posts remain 0.08 m at baseline. Exact authored colliders and dimensions remain independent of the decorative Tripo mesh.
+
+Arcaded support walls, the circular vista, concrete panel joints, restrained plant silhouettes, inlays and water surface are procedural local art. The water is a textured plane with subtle normal-map drift, not a fluid or reflection simulation. Reduced motion freezes its drift and the destination pulse; the connection transition changes only the active structure's material wash, preserving its exact transform. Only local mesh geometry, Web Audio and bundled fonts are required at runtime.

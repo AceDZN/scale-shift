@@ -1,41 +1,28 @@
-import {chromium} from 'playwright';
-import assert from 'node:assert/strict';
-import fs from 'node:fs/promises';
-const url=process.env.TEST_URL||'http://localhost:5181';
-const out=process.env.TEST_OUT||'playtest-output/browser';await fs.mkdir(out,{recursive:true});
-const browser=await chromium.launch({headless:true,channel:'chrome'});
-const page=await browser.newPage({viewport:{width:1440,height:900}});
-const errors=[];page.on('pageerror',e=>errors.push(String(e)));page.on('console',m=>{if(m.type()==='error')errors.push(m.text());});
-const state=()=>page.evaluate(()=>JSON.parse(window.render_game_to_text()));
-const advance=ms=>page.evaluate(ms=>window.advanceTime(ms),ms);
-async function walk(z){for(let i=0;i<60;i++){const s=await state();if(s.player.z>=z||(s.mode==='won'&&z>=83))return s;assert.equal(s.mode,'playing');await page.keyboard.down('w');await advance(Math.min(800,(z-s.player.z)/2.8*1000+17));await page.keyboard.up('w');}throw Error('walk timed out '+z);}
-async function choose(index,factor,rotation=false){await page.keyboard.press(String(index+1));const n=Math.round(Math.abs(factor-1)*20),key=factor>1?'e':'q';for(let i=0;i<n;i++)await page.keyboard.press(key);if(rotation)await page.locator('#rotate-btn').click();const s=await state();assert.equal(s.evaluation.ok,true,JSON.stringify(s.evaluation));return s;}
-async function connect(){await page.keyboard.press('Enter');assert.equal((await state()).selected,false);}
-try {
-await page.goto(url);await page.waitForFunction(()=>typeof window.render_game_to_text==='function');await page.locator('#start-btn').click();
-await page.keyboard.press('Escape');const paused=await state();await advance(1500);assert.equal((await state()).simulationTime,paused.simulationTime);await page.locator('#resume-btn').click();
-// A physical mistake and fast entrance recovery.
-await page.keyboard.down('w');await advance(2800);await page.keyboard.up('w');let s=await state();assert.equal(s.falls,1);assert.ok(s.player.z<7);assert.equal(s.passed.length,0);
-await page.keyboard.press('1');for(let i=0;i<20;i++)await page.keyboard.press('e');await page.keyboard.press('Enter');s=await state();assert.deepEqual(new Set(s.evaluation.codes),new Set(['width','ceiling']));assert.deepEqual(s.commitments,{});await page.screenshot({path:out+'/01-rejected.png'});
-await choose(1,1.5);await page.screenshot({path:out+'/02-gallery-preview.png'});await connect();
-// Undo both mesh/support, then reconnect with ordinary keys.
-await page.keyboard.press('r');assert.deepEqual((await state()).commitments,{});await choose(1,1.5);await connect();
-await walk(9);const occupied=await state();await page.keyboard.press('r');await page.keyboard.press('1');s=await state();assert.deepEqual(s.commitments,occupied.commitments);assert.equal(s.selected,false);await page.screenshot({path:out+'/03-first-crossing.png'});
-await walk(19);assert.equal((await state()).chamber,'inverse');await choose(0,.5);await connect();await walk(32);
-await choose(1,1.25,true);await page.screenshot({path:out+'/04-rotation.png'});await connect();await walk(48);
-await choose(0,2);await page.screenshot({path:out+'/05-calibrated-plan.png'});await connect();await walk(63);
-await choose(0,.75);await connect();await walk(71);assert.equal((await state()).socket.id,'transfer-b');await choose(1,2);await page.screenshot({path:out+'/06-transfer.png'});await connect();await walk(83.05);s=await state();assert.equal(s.mode,'won');assert.equal(s.passed.length,6);await page.screenshot({path:out+'/07-light-well.png'});
-// Retry remains useful after victory, without erasing committed architecture.
-await page.locator('#retry-btn').click();s=await state();assert.equal(s.mode,'playing');assert.equal(s.chamber,'transfer');assert.ok(s.player.z<67);
-// Camera preservation and viewport resizing.
-await page.locator('#world').click({position:{x:600,y:350}});await page.mouse.move(650,380);await page.keyboard.press('Escape');await page.locator('#resume-btn').click();const pose=(await state()).player;await page.setViewportSize({width:1024,height:768});s=await state();assert.deepEqual(s.player,pose);await page.screenshot({path:out+'/08-resize.png'});
-// Scale range focus must not swallow Escape.
-await page.keyboard.press('1');await page.locator('#scale-slider').focus();await page.keyboard.press('Escape');assert.equal((await state()).mode,'paused');await page.locator('#resume-btn').click();
-await page.locator('#mute-btn').click();assert.match(await page.locator('#mute-btn').textContent(),/מושתק/);
-// This build stores no progress, so malformed local data cannot become valid geometry.
-await page.evaluate(()=>localStorage.setItem('scale-shift','{invalid'));await page.reload();await page.waitForFunction(()=>typeof window.render_game_to_text==='function');assert.equal((await state()).mode,'title');
-const report={url,checks:'ordinary keyboard/buttons: pause, fall recovery, arch rejection, gallery commit/undo, occupied guards, all6crossings, inverse,rotation,1:50plan,changed transfer,victory,retry,resize,slider focus,mute,malformed local data',errors,final:s,at:new Date().toISOString()};await fs.writeFile(out+'/report.json',JSON.stringify(report,null,2));
-// Missing GLB is a known intermediate condition, never ignored by final asset verification.
-const unexpected=errors.filter(e=>!/light-well\.glb|Unexpected token.*</.test(e));assert.deepEqual(unexpected,[]);
-console.log(JSON.stringify({passed:true,errors,output:out}));
-} finally {await browser.close();}
+import {chromium} from 'playwright';import assert from 'node:assert/strict';import fs from 'node:fs/promises';
+const url=process.env.TEST_URL||'http://localhost:4181',out=process.env.TEST_OUT||'playtest-output/guided';await fs.mkdir(out,{recursive:true});
+const browser=await chromium.launch({headless:true,channel:'chrome'});try{
+const p=await browser.newPage({viewport:{width:1672,height:941}});const errors=[],badResponses=[];p.on('pageerror',e=>errors.push(String(e)));p.on('console',m=>{if(m.type()==='error')errors.push(m.text());});p.on('response',r=>{if(r.status()>=400)badResponses.push({status:r.status(),url:r.url()});});
+const boundsProof=[];function verifyBounds(s){const b=s.render.activeMeshExtents;assert.ok(b,'Actual THREE.Box3 extents');for(const [key,dim] of [['length','length'],['width','width'],['aboveDeckHeight','height']])assert.ok(Math.abs(b[key]-s.fit.dims[dim])<1e-5,`${s.stage.id} rendered ${key}=${b[key]} expected ${s.fit.dims[dim]}`);boundsProof.push({stage:s.stage.id,factor:s.scale,actual:b});}
+const state=()=>p.evaluate(()=>JSON.parse(window.render_game_to_text()));const advance=ms=>p.evaluate(ms=>window.advanceTime(ms),ms);const shot=async name=>{await advance(0);await p.screenshot({path:out+'/'+name+'.png'});};
+async function dragTo(factor,{cancel=false,release=true}={}){let s=await state();const h=await p.locator('#resize-handle').boundingBox();assert.ok(h,'Visible single resize handle');await p.mouse.move(h.x+h.width/2,h.y+h.height/2);await p.mouse.down();s=await state();const i=s.dragInput,delta=(factor-s.scale)*i.pixelsPerFactor;await p.mouse.move(h.x+h.width/2+i.axisX*delta,h.y+h.height/2+i.axisY*delta,{steps:18});await advance(0);if(cancel)await p.keyboard.press('Escape');if(release)await p.mouse.up();const result=await state();verifyBounds(result);return result;}
+async function finishRoute(expectedStage){for(let i=0;i<100;i++){const s=await state();if(s.stage.id!==expectedStage||s.mode==='won')return s;assert.equal(s.walking,true,'Walking cannot silently stop: '+s.feedback);await advance(400);}throw Error('Route timed out');}
+await p.goto(url);await p.waitForFunction(()=>typeof window.render_game_to_text==='function');await p.waitForFunction(()=>JSON.parse(window.render_game_to_text()).render.assetReady);let s=await state();assert.equal(s.version,'guided-v2');assert.equal(s.mode,'playing');assert.equal(await p.locator('#menu').isVisible(),false);assert.equal(await p.locator('#resize-handle').isVisible(),true);assert.equal(await p.locator('#walk-destination').isVisible(),false);await shot('01-arrival');
+// A real drag overshoots the dock. Invalid release retains an adjustable preview.
+s=await dragTo(1.75,{release:false});assert.equal(s.fit.ok,false);assert.ok(s.fit.codes.includes('long'));await shot('02-overshoot');await p.mouse.up();s=await state();assert.deepEqual(s.committed,{});assert.equal(s.rejects,1);
+// Escape cancels a drag to its exact previous transform, with no hidden mode.
+s=await dragTo(2,{cancel:true});assert.equal(s.scale,1.75);assert.equal(s.mode,'playing');assert.equal(s.dragging,false);
+s=await dragTo(1.5,{release:false});assert.equal(s.fit.ok,true);assert.deepEqual(s.render.uniformScale,[1.5,1.5,1.5]);await shot('03-fit-release');await p.mouse.up();await advance(600);s=await state();assert.equal(s.committed.sunbridge,1.5);assert.equal(s.passed.length,0);await shot('04-connected');
+await p.locator('#undo-btn').click();s=await state();assert.deepEqual(s.committed,{});await dragTo(1.5);await advance(600);
+await p.locator('#walk-destination').click();await advance(3800);s=await state();assert.equal(s.walking,true);assert.ok(s.camera.x>1&&s.camera.x<6);assert.equal(s.ground,0);await shot('05-inside');
+await p.locator('#world').click({position:{x:120,y:230}});s=await state();assert.equal(s.walkStopped,true);const stopped=structuredClone(s.camera);await advance(800);assert.deepEqual((await state()).camera,stopped);assert.equal(await p.locator('#undo-btn').isDisabled(),true);await p.locator('#continue-walk').click();
+s=await finishRoute('sunbridge');assert.equal(s.stage.id,'balcony-stair');assert.equal(s.render.worldBuilds,1);assert.deepEqual(s.passed,['sunbridge']);await advance(1000);await shot('06-stairs-arrival');
+// The same drag gesture now shrinks a real staircase.
+s=await dragTo(.5,{release:false});assert.equal(s.fit.ok,true);assert.equal(s.fit.dims.rise,1);await shot('07-stairs-fit');await p.mouse.up();await advance(600);await p.locator('#walk-destination').click();await advance(1750);await shot('08-stairs-climbing');
+await p.locator('#pause-btn').click();s=await state();const paused=structuredClone(s);await advance(2000);s=await state();assert.equal(s.mode,'paused');assert.deepEqual(s.camera,paused.camera);assert.equal(s.time,paused.time);await p.locator('#resume-btn').click();s=await finishRoute('balcony-stair');assert.equal(s.stage.id,'near-shore');assert.equal(s.camera.y,2.65);await advance(1000);await shot('09-balcony-reveal');
+await dragTo(.75);await advance(600);await p.locator('#walk-destination').click();s=await finishRoute('near-shore');assert.equal(s.stage.id,'far-shore');await advance(1000);await shot('10-final-shore');
+s=await dragTo(2,{release:false});assert.equal(s.fit.ok,true);await shot('11-final-fit');await p.mouse.up();await advance(600);await p.locator('#walk-destination').click();s=await finishRoute('far-shore');assert.equal(s.mode,'won');assert.equal(s.passed.length,4);assert.equal(s.render.worldBuilds,1);await shot('12-light-well');
+await p.locator('#restart-btn').click();s=await state();assert.equal(s.stage.id,'sunbridge');assert.deepEqual(s.committed,{});const pose=structuredClone(s.camera);await p.setViewportSize({width:1024,height:768});await advance(0);assert.deepEqual((await state()).camera,pose);await shot('13-resize');
+await p.locator('#help-btn').click();await p.locator('#reduced-motion').check();await p.locator('#resume-btn').click();await advance(1000);s=await state();assert.equal(s.reducedMotion,true);assert.equal(s.render.ambientMotion,false);await p.locator('#sound-btn').click();assert.match(await p.locator('#sound-btn').getAttribute('aria-label'),/הפעלת/);
+await p.evaluate(()=>localStorage.setItem('scale-shift','{broken'));await p.reload();await p.waitForFunction(()=>typeof window.render_game_to_text==='function');s=await state();assert.equal(s.stage.id,'sunbridge');assert.deepEqual(s.committed,{});
+assert.deepEqual(errors,[]);assert.deepEqual(badResponses,[]);await fs.writeFile(out+'/report.json',JSON.stringify({passed:true,url,viewport:{width:1672,height:941},boundsProof,errors,badResponses,checks:'mouse drag/release,overshoot,cancel,uniform render,undo,continuous four crossings,physical stairs,stop/resume,camera preservation,pause,restart,resize,reduced motion,mute,malformed local data,fresh GLB',final:s},null,2));console.log('Guided production browser checks passed.');
+}finally{await browser.close();}

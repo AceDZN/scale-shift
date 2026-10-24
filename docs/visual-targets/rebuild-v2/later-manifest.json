@@ -1,0 +1,24 @@
+{
+  "images": [
+    {
+      "file": "staircase.png",
+      "sha256": "1e239f183e25f6a4550e5042252aa6ecf0beacdeae40bfa806c1b8a533f41519",
+      "bytes": 2209201,
+      "kind": "generated gameplay design target; not a captured build",
+      "generator": "built-in image_gen",
+      "date": "2026-10-24",
+      "reference": "03-inside-v2.png (style only)",
+      "prompt": "LATER_SETPIECES.md"
+    },
+    {
+      "file": "two-shores.png",
+      "sha256": "ece1cc95b200ea0c9551e71eb34ac47f17449610134b50e7741c8c4e06834b51",
+      "bytes": 2306529,
+      "kind": "generated gameplay design target; not a captured build",
+      "generator": "built-in image_gen",
+      "date": "2026-10-24",
+      "reference": "03-inside-v2.png (style only)",
+      "prompt": "LATER_SETPIECES.md"
+    }
+  ]
+}
