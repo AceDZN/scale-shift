@@ -1,0 +1,9 @@
+Original prompt: Build Scale Shift as an independent real crew in /Users/acedzn/dev/AceDZN-exp/scale-shift, following docs/BUILD_HANDOFF.md and docs/CREW_COMMON.md through a tested genuinely playable five-chamber 3D browser slice. Reuse public AceDZN/scale-shift main; strict ports 5181/4181; static Vercel readiness, no deployment yet.
+
+Exact added human instruction:
+```
+Don't forget to build it as a real 3d fun game. use my chrome browser tripo.ai to create the 3d models ([https://studio.tripo3d.ai/workspace/generate/](https://studio.tripo3d.ai/workspace/generate/) ).
+btw,create it as a new public repo on my github (AceDZN). I think that I'll deploy it to one of our vercel servers soon because its pretty fun.. you can use my chrome browser for that as well . don't forget to commit your changes from time to time all to the same main branch for now (or open prs for side-tracks)
+```
+
+2026-10-24: Read standalone handoffs, verified origin/main, assigned actual visual/Chrome-Tripo and independent math QA contributors. Lead owns rules/input/integration and serial Git. Wrote identity checkpoint against portfolio. Using develop-web-game and frontend-skill.
