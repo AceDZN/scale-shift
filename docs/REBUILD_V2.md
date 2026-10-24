@@ -16,7 +16,7 @@ The first minute asks the player to learn navigation, mouse look, selection, fam
 
 **Click to walk. Drag to reshape. Release to connect.**
 
-The first puzzle presents one structure and one obvious destination. The architecture supplies the controls. Keyboard navigation and a numeric inspector are optional later exploration tools, not entry requirements. Guided movement is continuous first-person walking through actual geometry, with parallax and footsteps; it cannot cross an unsupported route. One visible corner handle scales the complete structure uniformly about its near-deck pivot. Camera views are authored to show the length, height and width together.
+The first puzzle presents one structure and one obvious destination. The architecture supplies the controls. Keyboard navigation and a numeric inspector are optional later exploration tools, not entry requirements. One destination click starts the entire crossing. A second click stops safely on supported geometry; the visible pause control/Escape freezes movement. Reduced motion removes head bob and sweeping camera transitions, retaining short steady movement with pause/cancel. The undo icon has a Hebrew accessible name and a text tooltip. Guided movement is continuous first-person walking through actual geometry, with parallax and footsteps; it cannot cross an unsupported route. One visible corner handle scales the complete structure uniformly about its near-deck pivot. Camera views are authored to show the length, height and width together.
 
 ### The first 60 seconds
 
@@ -41,13 +41,14 @@ The reward needs to change route, elevation, light or perspective each time. The
 
 ## Math retained
 
-The introductory gallery remains baseline `4 × 1.6 × 1 m`, opening `1.4 m`; factor `3/2` yields `6 × 2.4 × 1.5 m`, opening `2.1 m`. The full gap is 6 m, not an additional 6 m after the initial 4 m. Width/ceiling are physical clearance surfaces. All whole-structure transforms, colliders and walkability share authoritative metre geometry. Drawing scale and resize factor remain distinct. Existing Workbook source mappings and witnesses can be reused; a new geometry requires a new witness.
+The introductory gallery remains baseline `4 × 1.6 × 1 m`, opening `1.4 m`; factor `3/2` yields `6 × 2.4 × 1.5 m`, opening `2.1 m`. The full gap is 6 m, not an additional 6 m after the initial 4 m. The redesigned introductory room is explicitly **span-only**: width and ceiling are generous, nonbinding surfaces, rather than invisible restrictions. Later rooms introduce width/ceiling one at a time as obvious physical clearance surfaces. The original simultaneous-clearance puzzle remains a later mathematical witness, not the first control lesson. All whole-structure transforms, colliders and walkability share authoritative metre geometry. Drawing scale and resize factor remain distinct. Existing Workbook source mappings and witnesses can be reused; a new geometry requires a new witness.
 
 ## Generated mockups and crew review
 
 - `visual-targets/rebuild-v2/01-drag-v2.png`: corrected arrival / single drag affordance, one current→target label.
+- `visual-targets/rebuild-v2/01b-overshoot.png`: a corrected failure concept, visibly extending into the far dock with hatching only at the conflict; the handle remains usable.
 - `visual-targets/rebuild-v2/02-release.png`: uniformly larger valid preview / explicit release cue.
-- `visual-targets/rebuild-v2/03-inside.png`: inside-the-gallery crossing / new balcony view.
+- `visual-targets/rebuild-v2/03-inside-v2.png`: inside-the-gallery crossing / new balcony view, with no repeated destination instruction during motion.
 - `01-drag.png` and `02-cross.png` remain earlier drafts for provenance, not the selected final storyboard.
 - These images were generated with built-in image_gen before any rebuild code. They are interaction proposals, not actual gameplay captures.
 
@@ -57,7 +58,9 @@ Both independent QA and visual contributors found the one-handle, ghost-to-solid
 - A larger whole outline must grow in width and height too. A dashed extension in length alone suggests telescoping.
 - Include a valid-drag frame with “מתאים — שחררו”.
 - Use “לחצו כדי ללכת” for the destination and include an inside-the-gallery crossing frame.
-- First draft failure image did not place the overshoot convincingly beyond the dock; it is rejected as a geometric target.
+- First failure draft was rejected because it did not overshoot the dock. The corrected selected failure image shows an actual overlap beyond the lip. Its perspective still cannot replace numerical collision tests.
+- Review of the inside frame removed the repeated walking instruction: one click initiates a full crossing.
+- The first-room width/ceiling limits are explicitly nonbinding to avoid invisible restrictions; later constraints need visible surfaces.
 - Mock up the staircase and two-shore space before expanding beyond the first loop.
 
 ## Build and playtest gates

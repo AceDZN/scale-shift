@@ -5,8 +5,9 @@
   "rebuild_code_started": false,
   "selected": [
     "01-drag-v2.png",
+    "01b-overshoot.png",
     "02-release.png",
-    "03-inside.png"
+    "03-inside-v2.png"
   ],
   "files": {
     "01-drag.png": {
@@ -21,6 +22,10 @@
       "sha256": "cbae055faeb9b0528ef5a1053566d72d86a6c85a648c476a6a920e359b5640cb",
       "bytes": 1895112
     },
+    "01b-overshoot.png": {
+      "sha256": "4153db7ed41445b5134f9912ade3c2e283c8dc35e82d079f194f9c7ea5337c61",
+      "bytes": 1870329
+    },
     "01-drag-v2.png": {
       "sha256": "567f0bbceb66346d21946c38ed202377ee610bdee848caa2bb37d88841dc8d9f",
       "bytes": 1836927
@@ -28,6 +33,10 @@
     "03-inside.png": {
       "sha256": "a4a28f9ddafec1906a0cc25bdd2426145656bcaca8b49e579b1d5625ebd6fbf0",
       "bytes": 1969860
+    },
+    "03-inside-v2.png": {
+      "sha256": "565f72962e01eabe2a9c86fc1efe31d37132b8db97494723334836a70dc9c7bb",
+      "bytes": 1942223
     }
   }
 }
