@@ -1,0 +1,33 @@
+{
+  "status": "generated_replanning_mockups_not_actual_gameplay",
+  "mode": "built-in image_gen",
+  "human_feedback": "controls/gameflow confusing and boring; mockups required before rebuild",
+  "rebuild_code_started": false,
+  "selected": [
+    "01-drag-v2.png",
+    "02-release.png",
+    "03-inside.png"
+  ],
+  "files": {
+    "01-drag.png": {
+      "sha256": "3b852786b9b34540bfbc61529714782014b32e897effa2b0ccac33a94543bdc5",
+      "bytes": 2035471
+    },
+    "02-cross.png": {
+      "sha256": "4e6298f98defc090f7acfc270edf29a0ab569673a1e7441e95e985c2a017fd3d",
+      "bytes": 1899863
+    },
+    "02-release.png": {
+      "sha256": "cbae055faeb9b0528ef5a1053566d72d86a6c85a648c476a6a920e359b5640cb",
+      "bytes": 1895112
+    },
+    "01-drag-v2.png": {
+      "sha256": "567f0bbceb66346d21946c38ed202377ee610bdee848caa2bb37d88841dc8d9f",
+      "bytes": 1836927
+    },
+    "03-inside.png": {
+      "sha256": "a4a28f9ddafec1906a0cc25bdd2426145656bcaca8b49e579b1d5625ebd6fbf0",
+      "bytes": 1969860
+    }
+  }
+}

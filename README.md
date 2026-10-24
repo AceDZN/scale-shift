@@ -1,5 +1,7 @@
 # Scale Shift / קנה מידה
 
+**Replanning:** direct human play feedback found the current controls and flow confusing and boring. The existing build is preserved while a new interaction plan and gameplay mockups are reviewed in [docs/REBUILD_V2.md](docs/REBUILD_V2.md). The v2 rebuild has not started.
+
 A playable first-person architectural puzzle about uniform scale. Resize measured structures, test the span, width, ceiling and walking opening, commit real geometry, then walk across it. Hebrew interface, monumental concrete, sunlight and ultramarine previews.
 
 ## Play locally
