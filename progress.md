@@ -7,3 +7,5 @@ btw,create it as a new public repo on my github (AceDZN). I think that I'll depl
 ```
 
 2026-10-24: Read standalone handoffs, verified origin/main, assigned actual visual/Chrome-Tripo and independent math QA contributors. Lead owns rules/input/integration and serial Git. Wrote identity checkpoint against portfolio. Using develop-web-game and frontend-skill.
+
+2026-10-24 implementation: five connected chambers/six actual spans; first-person controls, rational uniform scaling, orientation, dimension rejection, occupied guard, undo, fall recovery, pause/retry, touch input, deterministic simulation/text hooks. Independent domain suite passes16/16, including all geometric witnesses and a full state-model walk. Initial ordinary-control browser walk crossed all six spans; screenshot inspection caught stale feedback, fixed. Full browser regression ongoing. Sculpture task completed through Chrome, optimization ongoing. New user image-first steering propagated to both helpers; root supplies canonical image; no new Tripo submissions while pending. Generated target must remain distinct from actual evidence.

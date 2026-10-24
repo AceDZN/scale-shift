@@ -35,9 +35,9 @@ export function createGame():Game {
 }
 export function occupied(g:Game,id=g.activeSocketId){const s=CHAMBERS.flatMap(c=>c.sockets).find(s=>s.id===id)!;return !!g.commitments[id]&&g.player.z>s.z-.3&&g.player.z<s.z+s.length+.3;}
 function editable(g:Game){if(g.mode!=='playing')return false;if(occupied(g)){g.message='אי אפשר לשנות מבנה בזמן שעומדים עליו. חזרו לרצפה.';g.revision++;return false;}return true;}
-export function select(g:Game,index?:number){if(!editable(g))return false;g.selected=index===undefined?!g.selected:true;if(index!==undefined){g.moduleIndex=Math.max(0,Math.min(activeContext(g).chamber.modules.length-1,index));g.scale=1;g.rotation=0;}refresh(g);return true;}
-export function resizeModule(g:Game,delta:number){if(!g.selected||!editable(g))return false;g.scale=Math.max(.5,Math.min(3,Math.round((g.scale+delta)*20)/20));refresh(g);return true;}
-export function rotate(g:Game){if(!g.selected||!editable(g))return false;g.rotation=g.rotation===0?90:0;refresh(g);return true;}
+export function select(g:Game,index?:number){if(!editable(g))return false;g.selected=index===undefined?!g.selected:true;if(index!==undefined){g.moduleIndex=Math.max(0,Math.min(activeContext(g).chamber.modules.length-1,index));g.scale=1;g.rotation=0;}refresh(g);if(g.selected)g.message='תצוגה מקדימה — המבנה עדיין אינו משטח הליכה.';return true;}
+export function resizeModule(g:Game,delta:number){if(!g.selected||!editable(g))return false;g.scale=Math.max(.5,Math.min(3,Math.round((g.scale+delta)*20)/20));refresh(g);g.message='תצוגה מקדימה — כל הממדים משתנים באותו יחס.';return true;}
+export function rotate(g:Game){if(!g.selected||!editable(g))return false;g.rotation=g.rotation===0?90:0;refresh(g);g.message='הכיוון השתנה. היחס והפרופורציות נשמרו.';return true;}
 export function commit(g:Game){if(!g.selected||!editable(g))return false;refresh(g);if(!g.evaluation.ok){g.rejects++;g.message=`לא מתאים: ${g.evaluation.reasons.join(' · ')}`;return false;}const before=g.commitments[g.activeSocketId];g.undoStack.push({socketId:g.activeSocketId,before:before?{...before}:undefined});g.commitments[g.activeSocketId]={moduleId:activeContext(g).module.id,scale:g.scale,rotation:g.rotation};g.commits++;g.selected=false;g.message='המבנה מחובר. אפשר ללכת דרכו.';g.revision++;return true;}
 export function undo(g:Game){if(g.mode!=='playing')return false;const last=g.undoStack.at(-1);if(!last)return false;if(occupied(g,last.socketId)){g.message='חזרו לרצפה לפני ביטול המבנה.';g.revision++;return false;}g.undoStack.pop();if(last.before)g.commitments[last.socketId]=last.before;else delete g.commitments[last.socketId];g.message='השינוי בוטל. גם משטח ההליכה עודכן.';g.revision++;return true;}
 export function retry(g:Game){const c=CHAMBERS[g.activeIndex];Object.assign(g.player,{x:0,y:PLAYER_HEIGHT,z:c.start+2,yaw:0,pitch:0});g.fallTime=0;g.velocityY=0;g.selected=false;g.message='חזרתם לכניסה לחלל. המבנים נשמרו.';g.revision++;}
@@ -59,7 +59,7 @@ export function step(g:Game,dt:number,input:{forward:number;strafe:number}){
  }
  if(!blocked){p.x=nx;p.z=nz;}
  let support=true;
- for(const c of CHAMBERS)for(const s of c.sockets){if(p.z>s.z&&p.z<s.z+s.length){const b=g.commitments[s.id];support=!!b&&Math.abs(p.x)<dimensions(c.modules.find(m=>m.id===b.moduleId)!,b.scale,b.rotation).width/2-PLAYER_RADIUS*.25;}}
+ for(const c of CHAMBERS)for(const s of c.sockets){if(p.z>s.z&&p.z<s.z+s.length){const b=g.commitments[s.id];support=!!b&&Math.abs(p.x)<dimensions(c.modules.find(m=>m.id===b.moduleId)!,b.scale,b.rotation).width/2-PLAYER_RADIUS-COLLISION_SKIN;}}
  if(!support||g.fallTime>0){g.fallTime+=dt;g.velocityY-=13*dt;p.y+=g.velocityY*dt;if(g.fallTime>.7){g.falls++;retry(g);g.message='נפילה אל החלל — חזרתם לכניסה. אפשר לנסות שוב.';}}
  else {p.y=PLAYER_HEIGHT;g.velocityY=0;}
  for(const c of CHAMBERS)for(const s of c.sockets){if(oldZ<s.z+s.length+.3&&p.z>=s.z+s.length+.3&&g.commitments[s.id]&&!g.passed.includes(s.id)){g.passed.push(s.id);g.message='המעבר הושלם בהליכה.';g.revision++;}}
