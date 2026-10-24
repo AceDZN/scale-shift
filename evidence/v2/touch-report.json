@@ -1,0 +1,224 @@
+{
+  "passed": true,
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "allFingerPathsInsideViewport": true,
+  "errors": [],
+  "final": {
+    "version": "guided-v2",
+    "coordinates": "metres, +Y up; camera is eye, foot height=camera.y-1.65; modules local+Z rotated by direction",
+    "mode": "paused",
+    "stage": {
+      "id": "sunbridge",
+      "title": "גשר של אור",
+      "kind": "gallery",
+      "origin": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "direction": {
+        "x": 1,
+        "z": 0
+      },
+      "base": {
+        "length": 4,
+        "width": 1,
+        "height": 1.6,
+        "opening": 1.4
+      },
+      "target": {
+        "length": 6,
+        "width": 8,
+        "ceiling": 8
+      },
+      "approach": {
+        "x": -2,
+        "y": 1.65,
+        "z": 5
+      },
+      "arrival": {
+        "x": 7,
+        "y": 1.65,
+        "z": 0
+      },
+      "focus": {
+        "x": 2.8,
+        "y": 1.05,
+        "z": 0
+      },
+      "route": [
+        {
+          "x": -0.65,
+          "y": 1.65,
+          "z": 0
+        },
+        {
+          "x": 0,
+          "y": 1.65,
+          "z": 0
+        },
+        {
+          "x": 6,
+          "y": 1.65,
+          "z": 0
+        },
+        {
+          "x": 7,
+          "y": 1.65,
+          "z": 0
+        },
+        {
+          "x": 12.5,
+          "y": 1.65,
+          "z": -1.3
+        }
+      ],
+      "hint": "גררו להגדלה"
+    },
+    "scale": 1,
+    "fraction": "1",
+    "dragging": false,
+    "fit": {
+      "ok": false,
+      "codes": [
+        "short",
+        "headroom"
+      ],
+      "message": "קצר מדי — הגדילו מעט",
+      "dims": {
+        "length": 4,
+        "width": 1,
+        "height": 1.6,
+        "opening": 1.4,
+        "rise": 0
+      }
+    },
+    "committed": {},
+    "passed": [],
+    "camera": {
+      "x": -2,
+      "y": 1.65,
+      "z": 5,
+      "targetX": 2.8,
+      "targetY": 1.05,
+      "targetZ": 0
+    },
+    "walking": false,
+    "walkStopped": false,
+    "waypoint": 0,
+    "path": [],
+    "ground": 0,
+    "feedback": "גררו להגדלה",
+    "settleTime": 0,
+    "time": 0,
+    "rejects": 0,
+    "handle": {
+      "x": 264.3173025839872,
+      "y": 388.339429553075,
+      "visible": false
+    },
+    "dragInput": {
+      "axisX": 0.7445295716077257,
+      "axisY": -0.6675894823928974,
+      "pixelsPerFactor": 180.31361220322577
+    },
+    "destination": {
+      "x": 323.6001366810299,
+      "y": 454.2735252347825,
+      "visible": false
+    },
+    "render": {
+      "activeMeshExtents": {
+        "aboveDeckHeight": 1.6,
+        "belowDeckDepth": 0.15,
+        "width": 1.0000000000000009,
+        "length": 4,
+        "worldMin": [
+          -1.1102230246251565e-16,
+          -0.15,
+          -0.5
+        ],
+        "worldMax": [
+          4,
+          1.6,
+          0.5000000000000009
+        ],
+        "uniformScale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "commitBlend": 0,
+      "ambientMotion": true,
+      "assetReady": true,
+      "assetError": null,
+      "sculptureCount": 2,
+      "calls": 51,
+      "triangles": 46028,
+      "geometries": 67,
+      "textures": 5,
+      "renderMs": 0.4,
+      "frameCount": 231,
+      "pixelRatio": 1,
+      "platforms": [
+        {
+          "id": "entry",
+          "top": 0,
+          "width": 8,
+          "depth": 16
+        },
+        {
+          "id": "sun-court",
+          "top": 0,
+          "width": 10,
+          "depth": 7
+        },
+        {
+          "id": "balcony",
+          "top": 1,
+          "width": 10,
+          "depth": 6
+        },
+        {
+          "id": "shore",
+          "top": 1,
+          "width": 6,
+          "depth": 6
+        },
+        {
+          "id": "light-court",
+          "top": 1,
+          "width": 8,
+          "depth": 6
+        }
+      ],
+      "worldBuilds": 1,
+      "moduleDimensions": {
+        "length": 4,
+        "width": 1,
+        "height": 1.6,
+        "opening": 1.4,
+        "rise": 0
+      },
+      "uniformScale": [
+        1,
+        1,
+        1
+      ],
+      "committedAt": 0,
+      "lastGameTime": 0
+    },
+    "reducedMotion": false,
+    "frameSample": {
+      "metric": "RAF interval, not render FPS",
+      "frames": 201,
+      "meanMs": 17.64278607249853,
+      "maxMs": 150.10000000000002
+    },
+    "recentEvents": []
+  }
+}

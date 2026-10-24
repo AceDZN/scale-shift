@@ -1,0 +1,750 @@
+{
+  "viewport": {
+    "width": 1672,
+    "height": 941
+  },
+  "preview": {
+    "version": "guided-v2",
+    "coordinates": "metres, +Y up; camera is eye, foot height=camera.y-1.65; modules local+Z rotated by direction",
+    "mode": "playing",
+    "stage": {
+      "id": "sunbridge",
+      "title": "גשר של אור",
+      "kind": "gallery",
+      "origin": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "direction": {
+        "x": 1,
+        "z": 0
+      },
+      "base": {
+        "length": 4,
+        "width": 1,
+        "height": 1.6,
+        "opening": 1.4
+      },
+      "target": {
+        "length": 6,
+        "width": 8,
+        "ceiling": 8
+      },
+      "approach": {
+        "x": -2,
+        "y": 1.65,
+        "z": 5
+      },
+      "arrival": {
+        "x": 7,
+        "y": 1.65,
+        "z": 0
+      },
+      "focus": {
+        "x": 2.8,
+        "y": 1.05,
+        "z": 0
+      },
+      "route": [
+        {
+          "x": -0.65,
+          "y": 1.65,
+          "z": 0
+        },
+        {
+          "x": 0,
+          "y": 1.65,
+          "z": 0
+        },
+        {
+          "x": 6,
+          "y": 1.65,
+          "z": 0
+        },
+        {
+          "x": 7,
+          "y": 1.65,
+          "z": 0
+        },
+        {
+          "x": 12.5,
+          "y": 1.65,
+          "z": -1.3
+        }
+      ],
+      "hint": "גררו להגדלה"
+    },
+    "scale": 1.5,
+    "fraction": "3/2",
+    "dragging": true,
+    "fit": {
+      "ok": true,
+      "codes": [],
+      "message": "מתאים — שחררו",
+      "dims": {
+        "length": 6,
+        "width": 1.5,
+        "height": 2.4000000000000004,
+        "opening": 2.0999999999999996,
+        "rise": 0
+      }
+    },
+    "committed": {},
+    "passed": [],
+    "camera": {
+      "x": -2,
+      "y": 1.65,
+      "z": 5,
+      "targetX": 2.8,
+      "targetY": 1.05,
+      "targetZ": 0
+    },
+    "walking": false,
+    "walkStopped": false,
+    "waypoint": 0,
+    "path": [],
+    "ground": 0,
+    "feedback": "מתאים — שחררו",
+    "settleTime": 0,
+    "time": 1.183333333333334,
+    "rejects": 0,
+    "handle": {
+      "x": 1123.9723413265042,
+      "y": 318.823804745456,
+      "visible": true
+    },
+    "dragInput": {
+      "axisX": 0.8699436439342115,
+      "axisY": -0.49315114962703444,
+      "pixelsPerFactor": 260
+    },
+    "destination": {
+      "x": 1100.073128443105,
+      "y": 536.7718640476662,
+      "visible": false
+    },
+    "render": {
+      "activeMeshExtents": {
+        "aboveDeckHeight": 2.4000000000000004,
+        "belowDeckDepth": 0.22499999999999998,
+        "width": 1.5000000000000016,
+        "length": 6,
+        "worldMin": [
+          -1.6653345369377348e-16,
+          -0.22499999999999998,
+          -0.7500000000000001
+        ],
+        "worldMax": [
+          6,
+          2.4000000000000004,
+          0.7500000000000014
+        ],
+        "uniformScale": [
+          1.5,
+          1.5,
+          1.5
+        ]
+      },
+      "commitBlend": 0,
+      "ambientMotion": true,
+      "assetReady": true,
+      "assetError": null,
+      "sculptureCount": 2,
+      "calls": 69,
+      "triangles": 79690,
+      "geometries": 64,
+      "textures": 5,
+      "renderMs": 0.3,
+      "frameCount": 57,
+      "pixelRatio": 1,
+      "platforms": [
+        {
+          "id": "entry",
+          "top": 0,
+          "width": 8,
+          "depth": 16
+        },
+        {
+          "id": "sun-court",
+          "top": 0,
+          "width": 10,
+          "depth": 7
+        },
+        {
+          "id": "balcony",
+          "top": 1,
+          "width": 10,
+          "depth": 6
+        },
+        {
+          "id": "shore",
+          "top": 1,
+          "width": 6,
+          "depth": 6
+        },
+        {
+          "id": "light-court",
+          "top": 1,
+          "width": 8,
+          "depth": 6
+        }
+      ],
+      "worldBuilds": 1,
+      "moduleDimensions": {
+        "length": 6,
+        "width": 1.5,
+        "height": 2.4000000000000004,
+        "opening": 2.0999999999999996,
+        "rise": 0
+      },
+      "uniformScale": [
+        1.5,
+        1.5,
+        1.5
+      ],
+      "committedAt": 0,
+      "lastGameTime": 1.183333333333334
+    },
+    "reducedMotion": false,
+    "frameSample": {
+      "metric": "RAF interval, not render FPS",
+      "frames": 66,
+      "meanMs": 20.298484845594928,
+      "maxMs": 183.30000000000007
+    },
+    "recentEvents": [
+      {
+        "type": "drag-start",
+        "stage": "sunbridge",
+        "scale": 1,
+        "time": 0.5833333333333335
+      }
+    ]
+  },
+  "moving": {
+    "version": "guided-v2",
+    "coordinates": "metres, +Y up; camera is eye, foot height=camera.y-1.65; modules local+Z rotated by direction",
+    "mode": "playing",
+    "stage": {
+      "id": "sunbridge",
+      "title": "גשר של אור",
+      "kind": "gallery",
+      "origin": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "direction": {
+        "x": 1,
+        "z": 0
+      },
+      "base": {
+        "length": 4,
+        "width": 1,
+        "height": 1.6,
+        "opening": 1.4
+      },
+      "target": {
+        "length": 6,
+        "width": 8,
+        "ceiling": 8
+      },
+      "approach": {
+        "x": -2,
+        "y": 1.65,
+        "z": 5
+      },
+      "arrival": {
+        "x": 7,
+        "y": 1.65,
+        "z": 0
+      },
+      "focus": {
+        "x": 2.8,
+        "y": 1.05,
+        "z": 0
+      },
+      "route": [
+        {
+          "x": -0.65,
+          "y": 1.65,
+          "z": 0
+        },
+        {
+          "x": 0,
+          "y": 1.65,
+          "z": 0
+        },
+        {
+          "x": 6,
+          "y": 1.65,
+          "z": 0
+        },
+        {
+          "x": 7,
+          "y": 1.65,
+          "z": 0
+        },
+        {
+          "x": 12.5,
+          "y": 1.65,
+          "z": -1.3
+        }
+      ],
+      "hint": "גררו להגדלה"
+    },
+    "scale": 1.5,
+    "fraction": "3/2",
+    "dragging": false,
+    "fit": {
+      "ok": true,
+      "codes": [],
+      "message": "מתאים — שחררו",
+      "dims": {
+        "length": 6,
+        "width": 1.5,
+        "height": 2.4000000000000004,
+        "opening": 2.0999999999999996,
+        "rise": 0
+      }
+    },
+    "committed": {
+      "sunbridge": 1.5
+    },
+    "passed": [],
+    "camera": {
+      "x": 3.398934321336015,
+      "y": 1.65,
+      "z": 0.00003518915182796483,
+      "targetX": 6.986178857482066,
+      "targetY": 1.5999999996388043,
+      "targetZ": -0.00032600794737056975
+    },
+    "walking": true,
+    "walkStopped": false,
+    "waypoint": 2,
+    "path": [
+      {
+        "x": -0.65,
+        "y": 1.65,
+        "z": 0
+      },
+      {
+        "x": 0,
+        "y": 1.65,
+        "z": 0
+      },
+      {
+        "x": 6,
+        "y": 1.65,
+        "z": 0
+      },
+      {
+        "x": 7,
+        "y": 1.65,
+        "z": 0
+      },
+      {
+        "x": 12.5,
+        "y": 1.65,
+        "z": -1.3
+      }
+    ],
+    "ground": 0,
+    "feedback": "",
+    "settleTime": 0,
+    "time": 6.2333333333333165,
+    "rejects": 0,
+    "handle": {
+      "x": 1086.980642620606,
+      "y": 207.49257191213715,
+      "visible": false
+    },
+    "dragInput": {
+      "axisX": 0.8699436439342115,
+      "axisY": -0.49315114962703444,
+      "pixelsPerFactor": 260
+    },
+    "destination": {
+      "x": 836.0783029580273,
+      "y": 844.7128863985282,
+      "visible": false
+    },
+    "render": {
+      "activeMeshExtents": {
+        "aboveDeckHeight": 2.4000000000000004,
+        "belowDeckDepth": 0.22499999999999998,
+        "width": 1.5000000000000016,
+        "length": 6,
+        "worldMin": [
+          -1.6653345369377348e-16,
+          -0.22499999999999998,
+          -0.7500000000000001
+        ],
+        "worldMax": [
+          6,
+          2.4000000000000004,
+          0.7500000000000014
+        ],
+        "uniformScale": [
+          1.5,
+          1.5,
+          1.5
+        ]
+      },
+      "commitBlend": 0,
+      "ambientMotion": true,
+      "assetReady": true,
+      "assetError": null,
+      "sculptureCount": 2,
+      "calls": 66,
+      "triangles": 78110,
+      "geometries": 67,
+      "textures": 5,
+      "renderMs": 0.3,
+      "frameCount": 176,
+      "pixelRatio": 1,
+      "platforms": [
+        {
+          "id": "entry",
+          "top": 0,
+          "width": 8,
+          "depth": 16
+        },
+        {
+          "id": "sun-court",
+          "top": 0,
+          "width": 10,
+          "depth": 7
+        },
+        {
+          "id": "balcony",
+          "top": 1,
+          "width": 10,
+          "depth": 6
+        },
+        {
+          "id": "shore",
+          "top": 1,
+          "width": 6,
+          "depth": 6
+        },
+        {
+          "id": "light-court",
+          "top": 1,
+          "width": 8,
+          "depth": 6
+        }
+      ],
+      "worldBuilds": 1,
+      "moduleDimensions": {
+        "length": 6,
+        "width": 1.5,
+        "height": 2.4000000000000004,
+        "opening": 2.0999999999999996,
+        "rise": 0
+      },
+      "committedAt": 1.3166666666666669,
+      "lastGameTime": 6.21666666666665
+    },
+    "reducedMotion": false,
+    "frameSample": {
+      "metric": "RAF interval, not render FPS",
+      "frames": 379,
+      "meanMs": 17.298416886040275,
+      "maxMs": 183.30000000000007
+    },
+    "recentEvents": [
+      {
+        "type": "drag-start",
+        "stage": "sunbridge",
+        "scale": 1,
+        "time": 0.5833333333333335
+      },
+      {
+        "type": "connect",
+        "stage": "sunbridge",
+        "scale": 1.5,
+        "time": 1.3166666666666669
+      },
+      {
+        "type": "walk-start",
+        "stage": "sunbridge",
+        "scale": 1.5,
+        "time": 2.1333333333333306
+      }
+    ]
+  },
+  "arrived": {
+    "version": "guided-v2",
+    "coordinates": "metres, +Y up; camera is eye, foot height=camera.y-1.65; modules local+Z rotated by direction",
+    "mode": "playing",
+    "stage": {
+      "id": "balcony-stair",
+      "title": "מדרגות אל המבט הבא",
+      "kind": "stairs",
+      "origin": {
+        "x": 10,
+        "y": 0,
+        "z": -3
+      },
+      "direction": {
+        "x": 0,
+        "z": -1
+      },
+      "base": {
+        "length": 4,
+        "width": 3,
+        "height": 3.4,
+        "opening": 0,
+        "rise": 2
+      },
+      "target": {
+        "length": 2,
+        "width": 1.7,
+        "ceiling": 3.2,
+        "rise": 1
+      },
+      "approach": {
+        "x": 12.5,
+        "y": 1.65,
+        "z": -1.3
+      },
+      "arrival": {
+        "x": 10,
+        "y": 2.65,
+        "z": -5.35
+      },
+      "focus": {
+        "x": 10,
+        "y": 0.85,
+        "z": -4
+      },
+      "route": [
+        {
+          "x": 10,
+          "y": 1.65,
+          "z": -2.5
+        },
+        {
+          "x": 10,
+          "y": 1.65,
+          "z": -3
+        },
+        {
+          "x": 10,
+          "y": 2.65,
+          "z": -5.35
+        },
+        {
+          "x": 12.5,
+          "y": 2.65,
+          "z": -9.8
+        }
+      ],
+      "hint": "גררו כדי להקטין"
+    },
+    "scale": 1,
+    "fraction": "1",
+    "dragging": false,
+    "fit": {
+      "ok": false,
+      "codes": [
+        "long",
+        "width",
+        "rise",
+        "ceiling"
+      ],
+      "message": "אין מקום לעבור מתחת לקורה",
+      "dims": {
+        "length": 4,
+        "width": 3,
+        "height": 3.4,
+        "opening": 0,
+        "rise": 2
+      }
+    },
+    "committed": {
+      "sunbridge": 1.5
+    },
+    "passed": [
+      "sunbridge"
+    ],
+    "camera": {
+      "x": 12.5,
+      "y": 1.65,
+      "z": -1.3,
+      "targetX": 12.609068558604534,
+      "targetY": 1.1800950014888238,
+      "targetZ": -3.1682021385744115
+    },
+    "walking": false,
+    "walkStopped": false,
+    "waypoint": 5,
+    "path": [
+      {
+        "x": -0.65,
+        "y": 1.65,
+        "z": 0
+      },
+      {
+        "x": 0,
+        "y": 1.65,
+        "z": 0
+      },
+      {
+        "x": 6,
+        "y": 1.65,
+        "z": 0
+      },
+      {
+        "x": 7,
+        "y": 1.65,
+        "z": 0
+      },
+      {
+        "x": 12.5,
+        "y": 1.65,
+        "z": -1.3
+      }
+    ],
+    "ground": 0,
+    "feedback": "גררו כדי להקטין",
+    "settleTime": 0,
+    "time": 10.616666666666774,
+    "rejects": 0,
+    "handle": {
+      "x": 607.0686909591616,
+      "y": -57.54951664341047,
+      "visible": false
+    },
+    "dragInput": {
+      "axisX": 0.8699436439342115,
+      "axisY": -0.49315114962703444,
+      "pixelsPerFactor": 260
+    },
+    "destination": {
+      "x": 233.62303255075554,
+      "y": 392.7292745934145,
+      "visible": false
+    },
+    "render": {
+      "activeMeshExtents": {
+        "aboveDeckHeight": 3.4000000000000004,
+        "belowDeckDepth": 0,
+        "width": 3,
+        "length": 4.000000000000002,
+        "worldMin": [
+          8.5,
+          0,
+          -7.000000000000001
+        ],
+        "worldMax": [
+          11.5,
+          3.4000000000000004,
+          -2.9999999999999996
+        ],
+        "uniformScale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "commitBlend": 0,
+      "ambientMotion": true,
+      "assetReady": true,
+      "assetError": null,
+      "sculptureCount": 2,
+      "calls": 73,
+      "triangles": 9738,
+      "geometries": 70,
+      "textures": 5,
+      "renderMs": 0.7,
+      "frameCount": 275,
+      "pixelRatio": 1,
+      "platforms": [
+        {
+          "id": "entry",
+          "top": 0,
+          "width": 8,
+          "depth": 16
+        },
+        {
+          "id": "sun-court",
+          "top": 0,
+          "width": 10,
+          "depth": 7
+        },
+        {
+          "id": "balcony",
+          "top": 1,
+          "width": 10,
+          "depth": 6
+        },
+        {
+          "id": "shore",
+          "top": 1,
+          "width": 6,
+          "depth": 6
+        },
+        {
+          "id": "light-court",
+          "top": 1,
+          "width": 8,
+          "depth": 6
+        }
+      ],
+      "worldBuilds": 1,
+      "moduleDimensions": {
+        "length": 4,
+        "width": 3,
+        "height": 3.4,
+        "opening": 0,
+        "rise": 2
+      },
+      "uniformScale": [
+        1,
+        1,
+        1
+      ],
+      "committedAt": 1.3166666666666669,
+      "lastGameTime": 10.616666666666774
+    },
+    "reducedMotion": false,
+    "frameSample": {
+      "metric": "RAF interval, not render FPS",
+      "frames": 642,
+      "meanMs": 17.03940809939138,
+      "maxMs": 183.30000000000007
+    },
+    "recentEvents": [
+      {
+        "type": "drag-start",
+        "stage": "sunbridge",
+        "scale": 1,
+        "time": 0.5833333333333335
+      },
+      {
+        "type": "connect",
+        "stage": "sunbridge",
+        "scale": 1.5,
+        "time": 1.3166666666666669
+      },
+      {
+        "type": "walk-start",
+        "stage": "sunbridge",
+        "scale": 1.5,
+        "time": 2.1333333333333306
+      },
+      {
+        "type": "crossed",
+        "stage": "sunbridge",
+        "scale": 1.5,
+        "time": 10.350000000000094
+      }
+    ]
+  },
+  "errors": [],
+  "realTimeWalking": true
+}

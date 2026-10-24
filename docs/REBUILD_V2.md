@@ -1,6 +1,6 @@
 # Scale Shift — interaction replan v2
 
-Status: approved guided rebuild implemented; production/input checks and human first-minute feedback are recorded separately. Generated mockups preceded the rebuild. The existing playable baseline is preserved at main commit `4d4beb2`; its numerical checks do not establish usability or fun.
+Status: approved guided rebuild implemented; production/input checks are recorded separately; human first-minute feedback is pending. Generated mockups preceded the rebuild. The existing playable baseline is preserved at main commit `4d4beb2`; its numerical checks do not establish usability or fun.
 
 ## Direct human feedback
 
@@ -16,7 +16,7 @@ The first minute asks the player to learn navigation, mouse look, selection, fam
 
 **Click to walk. Drag to reshape. Release to connect.**
 
-The first puzzle presents one structure and one obvious destination. The architecture supplies the controls. Keyboard navigation and a numeric inspector are optional later exploration tools, not entry requirements. One destination click starts the entire crossing. A second click stops safely on supported geometry; the visible pause control/Escape freezes movement. Reduced motion removes head bob and sweeping camera transitions, retaining short steady movement with pause/cancel. The undo icon has a Hebrew accessible name and a text tooltip. Guided movement is continuous first-person walking through actual geometry, with parallax and footsteps; it cannot cross an unsupported route. One visible corner handle scales the complete structure uniformly about its near-deck pivot. Camera views are authored to show the length, height and width together.
+The first puzzle presents one structure and one obvious destination. The architecture supplies the controls. The current slice omits navigation controls and a numeric inspector. One destination click starts the entire crossing. A second click stops safely on supported geometry; the visible pause control/Escape freezes movement. Walking has no head bob. Reduced motion disables decorative pulses, water motion and the connection wash, retaining continuous guided walking with pause/cancel. The undo icon has a Hebrew accessible name and a text tooltip. Guided movement is continuous first-person walking through actual geometry, with parallax and footsteps; it cannot cross an unsupported route. One visible corner handle scales the complete structure uniformly about its near-deck pivot. Camera views are authored to show the length, height and width together.
 
 ### The first 60 seconds
 
@@ -41,7 +41,7 @@ The reward needs to change route, elevation, light or perspective each time. The
 
 ## Math retained
 
-The introductory gallery remains baseline `4 × 1.6 × 1 m`, opening `1.4 m`; factor `3/2` yields `6 × 2.4 × 1.5 m`, opening `2.1 m`. The full gap is 6 m, not an additional 6 m after the initial 4 m. The redesigned introductory room is explicitly **span-only**: width and ceiling are generous, nonbinding surfaces, rather than invisible restrictions. Later rooms introduce width/ceiling one at a time as obvious physical clearance surfaces. The original simultaneous-clearance puzzle remains a later mathematical witness, not the first control lesson. All whole-structure transforms, colliders and walkability share authoritative metre geometry. Drawing scale and resize factor remain distinct. Existing Workbook source mappings and witnesses can be reused; a new geometry requires a new witness.
+The introductory gallery remains baseline `4 × 1.6 × 1 m`, opening `1.4 m`; factor `3/2` yields `6 × 2.4 × 1.5 m`, opening `2.1 m`. The full gap is 6 m, not an additional 6 m after the initial 4 m. The redesigned introductory room is explicitly **span-only**: width and ceiling are generous, nonbinding surfaces, rather than invisible restrictions. The later structures include visible width/ceiling boundaries and independent fit checks, while their exact solutions also satisfy the span. The original simultaneous-clearance puzzle is historical context rather than an implemented family-choice challenge. All whole-structure transforms, colliders and walkability share authoritative metre geometry. Drawing scale and resize factor remain distinct. Existing Workbook source mappings and witnesses can be reused; a new geometry requires a new witness.
 
 ## Generated mockups and crew review
 
@@ -63,14 +63,14 @@ Both independent QA and visual contributors found the one-handle, ghost-to-solid
 - The first-room width/ceiling limits are explicitly nonbinding to avoid invisible restrictions; later constraints need visible surfaces.
 - Mock up the staircase and two-shore space before expanding beyond the first loop.
 
-## Build and playtest gates
+## Build and playtest review
 
 1. Review the interaction direction and corrected first-minute storyboard.
 2. Rebuild the first 60 seconds only. Reuse compatible local Tripo art; exact surfaces stay procedural.
 3. Check input with ordinary mouse/touch: no pointer lock, wheel, keyboard shortcut or hidden mode is needed to solve the first room.
 4. Independently verify uniform scale, invalid release/cancellation, undo, correct collider creation and inability to click-walk through empty space.
 5. Capture actual gameplay at the mockup's camera/state and compare it, including a real-time crossing.
-6. Ask the human to play that minute and report where they hesitate and whether the reveal feels rewarding. Passing automation cannot replace that response.
-7. Expand to the staircase and light-well transfer only after the basic interaction has been tried.
+6. The first interaction was exercised with ordinary mouse/touch and native Chrome input before completing the staircase and light-well route. Each later space received a generated reference before scene implementation.
+7. Human first-minute feedback is still pending: where the player hesitates and whether making/crossing the route feels rewarding. Passing automation cannot replace that response.
 
 The human approved the guided direction with “ok, proceed”. The implemented route contains four crossings across the three proposed spaces; its usability and enjoyment remain subject to human play feedback.
